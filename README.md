@@ -3,6 +3,16 @@
 A full-stack blog application with categories, cover images, and a beautiful dark UI — deployable on a local Kubernetes cluster.
  
 ---
+![alt text](home.png)
+---
+![alt text](travel-page.png)
+---
+![alt text](travel-blog1.png)
+---
+![alt text](travel-blog2.png)
+---
+![alt text](write-blog.png)
+---
 
 ## 🗂 Project Structure
 
