@@ -68,7 +68,7 @@ blog-app/
 
 ## 📦 Tech Stack
 
-```
+
 
 | Layer         | Technology                                               |
 |---------------|----------------------------------------------------------|
@@ -79,5 +79,17 @@ blog-app/
 | Web server    | Nginx (reverse proxy + SPA routing)                      |
 | Orchestration | Kubernetes (Deployment, Service, PVC, HPA, Ingress)      |
 
+---
+
+### Forwarding the port for frontend
+kubectl port-forward svc/blog-frontend 9094:80 -n blog-app > /dev/null 2>&1 &
+
+
+## 🧹 Cleanup
+
+```bash
+kubectl delete namespace blog-app
 ```
+This removes all resources including the MongoDB PVC.
+---
 

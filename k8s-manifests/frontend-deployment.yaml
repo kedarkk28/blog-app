@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: blog-frontend
-          image: blog-frontend:latest
-          imagePullPolicy: Never        # use locally-built image
+          image: blog-frontend:v1.2
+          imagePullPolicy: Never
           ports:
             - containerPort: 80
           resources:

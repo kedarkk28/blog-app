@@ -1,3 +1,6 @@
 automate.sh
 readme1.md
 .gitignore
+backend/server.js.bkp
+frontend/src/components/BlogCard.jsx.bkp
+frontend/src/pages/BlogDetail.jsx.bkp

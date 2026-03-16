@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: blog-backend
-          image: blog-backend:v1
+          image: blog-backend:v1.2
           imagePullPolicy: Never
           ports:
             - containerPort: 5000
