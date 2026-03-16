@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-backend
+  namespace: blog-app
+  labels:
+    app: blog-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: blog-backend
+  template:
+    metadata:
+      labels:
+        app: blog-backend
+    spec:
+      containers:
+        - name: blog-backend
+          image: blog-backend:v1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: backend-config
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 5000
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            failureThreshold: 3
