@@ -197,22 +197,17 @@ pipeline {
     post {
         success {
             echo """
-╔══════════════════════════════════════════════╗
-║   ✅  BUILD SUCCESS                          ║
-║   Image tag : ${IMAGE_TAG}
-║   Cluster   : ${KIND_CLUSTER}
-║   Namespace : ${K8S_NAMESPACE}
-║   App URL   : http://localhost:${FRONTEND_PORT}
-╚══════════════════════════════════════════════╝
+    ✅  BUILD SUCCESS                          
+    Image tag : ${IMAGE_TAG}
+    Cluster   : ${KIND_CLUSTER}
+    Namespace : ${K8S_NAMESPACE}
+    App URL   : http://localhost:${FRONTEND_PORT}
             """
         }
 
         failure {
             echo """
-╔══════════════════════════════════════════════╗
-║   ❌  BUILD FAILED                           ║
-║   Check the logs above for the failing stage ║
-╚══════════════════════════════════════════════╝
+    ❌  BUILD FAILED
             """
             // Clean up any port-forward that may have started before the failure
             sh "fuser -k ${FRONTEND_PORT}/tcp || true"
