@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     // ── Global variables ────────────────────────────────────────────────────
     environment {
         KIND_CLUSTER    = "k8s-multi-node-cluster"
@@ -7,6 +8,7 @@ pipeline {
         FRONTEND_IMAGE  = "blog-frontend:${IMAGE_TAG}"
         BACKEND_IMAGE   = "blog-backend:${IMAGE_TAG}"
         K8S_NAMESPACE   = "blog-app"
+        FRONTEND_PORT   = "9094"
     }
 
     options {
@@ -163,7 +165,33 @@ pipeline {
                 echo "✅ Deployment complete — running on tag ${IMAGE_TAG}"
             }
         }
-    }
+
+        // ── 8. Port Forward ──────────────────────────────────────────────────
+        stage('Port Forward') {
+            steps {
+                echo "🔗 Setting up port-forward: localhost:${FRONTEND_PORT} → svc/blog-frontend:80..."
+
+                // Kill any existing port-forward on the same port to avoid conflicts
+                sh "fuser -k ${FRONTEND_PORT}/tcp || true"
+
+                // Start port-forward in the background; redirect output so Jenkins
+                // doesn't wait for the process to finish
+                sh """
+                    kubectl port-forward svc/blog-frontend ${FRONTEND_PORT}:80 \
+                        -n ${K8S_NAMESPACE} > /dev/null 2>&1 &
+
+                    # Give it a moment to establish the tunnel
+                    sleep 3
+
+                    # Verify the port is actually listening
+                    if fuser ${FRONTEND_PORT}/tcp > /dev/null 2>&1; then
+                        echo "✅ Port-forward established — app is available at http://localhost:${FRONTEND_PORT}"
+                    else
+                        echo "⚠️  Port-forward may not have started — check kubectl connectivity"
+                    fi
+                """
+            }
+        }
 
     // ── Post ─────────────────────────────────────────────────────────────────
     post {
@@ -174,6 +202,7 @@ pipeline {
 ║   Image tag : ${IMAGE_TAG}
 ║   Cluster   : ${KIND_CLUSTER}
 ║   Namespace : ${K8S_NAMESPACE}
+║   App URL   : http://localhost:${FRONTEND_PORT}
 ╚══════════════════════════════════════════════╝
             """
         }
@@ -185,6 +214,8 @@ pipeline {
 ║   Check the logs above for the failing stage ║
 ╚══════════════════════════════════════════════╝
             """
+            // Clean up any port-forward that may have started before the failure
+            sh "fuser -k ${FRONTEND_PORT}/tcp || true"
             // Uncomment below to clean up dangling images on failure
             // sh "docker rmi ${FRONTEND_IMAGE} ${BACKEND_IMAGE} || true"
         }
