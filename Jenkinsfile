@@ -12,18 +12,25 @@ pipeline {
         GIT_REPO_URL = "https://github.com/kedarkk28/blog-app.git"
     }
     stages {
-/*
+
         stage('Checkout git'){
             steps{
             echo "Checking out git"
-            git url: "${GIT_REPO_URL}", branch: 'main'
+            //git url: "${GIT_REPO_URL}", branch: 'main'
         }
-        }*/
+        }
 
-        stage('Docker build '){
+        stage('Build Docker image'){
             steps{
+                dir('frontend') {
                 echo "docker images"
-                sh 'docker images'
+                sh "docker build -t ${FRONTEND_IMAGE}:${IMAGE_TAG} ."
+}
+               dir('backend') {
+                echo "docker images"
+                sh "docker build -t ${FRONTEND_IMAGE}:${IMAGE_TAG} ."
+}
+            sh "docker images grep ${IMAGE_TAG}"
             }
         }
     }
