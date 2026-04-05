@@ -57,5 +57,14 @@ stage('Change image in manifests'){
             }
             }
 
+            stage('Kubectl Apply'){
+                steps{
+                    sh """
+                    kubectl apply -f k8s-manifests/namespace.yaml
+                    kubectl apply -f k8s-manifests/
+                    """
+                }
+            }
+
     }
 }
