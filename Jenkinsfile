@@ -16,7 +16,7 @@ pipeline {
         stage('Checkout git'){
             steps{
             echo "Checking out git"
-            git url: '${GIT_REPO_URL}', branch: 'main'
+            git url: "${GIT_REPO_URL}", branch: 'main'
         }
         }
 
