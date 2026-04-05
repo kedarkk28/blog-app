@@ -17,5 +17,12 @@ pipeline {
             echo "Checking out git"
         }
         }
+
+        stage('Docker build '){
+            steps{
+                echo "docker images"
+                sh 'docker images'
+            }
+        }
     }
 }
