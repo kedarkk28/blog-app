@@ -44,5 +44,18 @@ pipeline {
         """
             }
         }
+
+stage('Load into kind'){
+            steps{
+                dir('k8s-manifests') {
+        sh """
+        
+        sed -i "s|image:.*|image: ${FRONTEND_IMAGE}|g" frontend-deployment.yaml
+        sed -i "s|image:.*|image: ${FRONTEND_IMAGE}|g" backend-deployment.yaml
+"""
+            }
+            }
+            }
+
     }
 }
