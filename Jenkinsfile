@@ -36,12 +36,13 @@ pipeline {
         }
 
         stage('Load into kind'){
+            steps{
         echo "Loading images into local kind cluster: ${KIND_CLUSTER}..."
         sh """
         kind load docker-image ${FRONTEND_IMAGE} --name ${KIND_CLUSTER}
         kind load docker-image ${BACKEND_IMAGE}  --name ${KIND_CLUSTER}
         """
-        
+            }
         }
     }
 }
