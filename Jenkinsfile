@@ -60,7 +60,7 @@ stage('Change image in manifests'){
             stage('Kubectl Apply'){
                 steps{
                     sh """
-                    kubectl delete ns blog-app
+                    kubectl delete ns blog-app || true
                     kubectl apply -f k8s-manifests/namespace.yaml
                     kubectl apply -f k8s-manifests/
                     """
