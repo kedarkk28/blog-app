@@ -13,7 +13,7 @@ pipeline {
 
     stages {
         stage('Checkout git'){
-            echo "Checking out git"
+            sh 'echo "Checking out git"'
         }
     }
 }
