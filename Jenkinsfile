@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-stage('Load into kind'){
+stage('Change image in manifests'){
             steps{
                 dir('k8s-manifests') {
         sh """
