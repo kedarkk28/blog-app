@@ -11,14 +11,14 @@ pipeline {
         FRONTEND_PORT   = "9094"
         GIT_REPO_URL = "https://github.com/kedarkk28/blog-app.git"
     }
-
+/*
     stages {
         stage('Checkout git'){
             steps{
             echo "Checking out git"
             git url: "${GIT_REPO_URL}", branch: 'main'
         }
-        }
+        }*/
 
         stage('Docker build '){
             steps{
