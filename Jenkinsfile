@@ -23,14 +23,15 @@ pipeline {
         stage('Build Docker image'){
             steps{
                 dir('frontend') {
-                echo "docker images"
-                sh "docker build -t ${FRONTEND_IMAGE}:${IMAGE_TAG} ."
+                echo "Build frontend docker image"
+                sh "docker build -t ${FRONTEND_IMAGE} ."
 }
                dir('backend') {
-                echo "docker images"
-                sh "docker build -t ${FRONTEND_IMAGE}:${IMAGE_TAG} ."
+                echo "Build frontend docker image"
+                sh "docker build -t ${BACKEND_IMAGE} ."
 }
-            sh "docker images grep ${IMAGE_TAG}"
+            echo "docker images:"
+            sh "docker images | grep ${IMAGE_TAG}"
             }
         }
     }
