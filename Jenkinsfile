@@ -24,11 +24,11 @@ pipeline {
             steps{
                 dir('frontend') {
                 echo "Build frontend docker image"
-                sh "docker build -t ${FRONTEND_IMAGE} ."
+                sh "docker build -t ${FRONTEND_IMAGE} --no-cache ."
 }
                dir('backend') {
                 echo "Build frontend docker image"
-                sh "docker build -t ${BACKEND_IMAGE} ."
+                sh "docker build -t ${BACKEND_IMAGE} --no-cache ."
 }
             echo "docker images:"
             sh "docker images | grep ${IMAGE_TAG}"
